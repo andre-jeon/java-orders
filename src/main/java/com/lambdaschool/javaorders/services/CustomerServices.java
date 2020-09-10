@@ -12,8 +12,6 @@ public interface CustomerServices {
 
     List<Customer> findCustomerByKeyword(String keyword);
 
-    List<OrderCount> findOrderCount();
-
     Customer save(Customer customer);
 
     Customer update(Customer customer, long custcode);

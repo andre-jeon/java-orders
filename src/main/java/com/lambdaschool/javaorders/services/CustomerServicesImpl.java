@@ -42,12 +42,7 @@ public class CustomerServicesImpl implements CustomerServices{
         return list;
     }
 
-    @Override
-    public List<OrderCount> findOrderCount() {
-        List<OrderCount> list = customerrepos.findOrderCount();
-        return list;
-    }
-
+    // save
     @Transactional
     @Override
     public Customer save(Customer customer) {
@@ -67,7 +62,6 @@ public class CustomerServicesImpl implements CustomerServices{
         newCustomer.setOutstandingamt(customer.getOutstandingamt());
         newCustomer.setPaymentamt(customer.getPaymentamt());
         newCustomer.setPhone(customer.getPhone());
-        newCustomer.setReceiveamt(customer.getReceiveamt());
         newCustomer.setWorkingarea(customer.getWorkingarea());
         newCustomer.setAgent(customer.getAgent());
 
@@ -90,6 +84,7 @@ public class CustomerServicesImpl implements CustomerServices{
         return customerrepos.save(newCustomer);
     }
 
+    // update
     @Transactional
     @Override
     public Customer update(Customer customer, long custcode) {
@@ -160,6 +155,7 @@ public class CustomerServicesImpl implements CustomerServices{
         return customerrepos.save(updateCustomer);
     }
 
+    // delete
     @Transactional
     @Override
     public void delete(long custcode) {
