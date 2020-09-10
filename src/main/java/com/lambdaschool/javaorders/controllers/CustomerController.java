@@ -3,10 +3,14 @@ package com.lambdaschool.javaorders.controllers;
 import com.lambdaschool.javaorders.models.Customer;
 import com.lambdaschool.javaorders.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,4 +44,31 @@ public class CustomerController {
         List<Customer> customer = customerServices.findCustomerByKeyword(keyword);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
+
+    // POST
+    // http://localhost:2019/customers/customer
+    @PostMapping(value = "/customer", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> addNewCustomer(@Valid @RequestBody Customer newCustomer) {
+        newCustomer.setCustcode(0);
+        newCustomer = customerServices.save(newCustomer);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newCustomerURI = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{custcode}")
+                .buildAndExpand(newCustomer.getCustcode())
+                .toUri();
+        responseHeaders.setLocation(newCustomerURI);
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+
+    // PUT
+    // http://localhost:2019/customers/customer/19
+
+    // PATCH
+    // http://localhost:2019/customers/customer/19
+
+    // DELETE
+    // http://localhost:2019/customers/customer/54
+
+
 }

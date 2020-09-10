@@ -23,4 +23,14 @@ public class OrderController {
         Order order =orderServices.findOrderById(value);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
+
+    // POST
+    // http://localhost:2019/orders/order
+
+    // PUT
+    // http://localhost:2019/orders/order/63
+
+    // DELETE
+    // http://localhost:2019/orders/order/58
+
 }

@@ -13,4 +13,8 @@ public interface CustomerServices {
     List<Customer> findCustomerByKeyword(String keyword);
 
     List<OrderCount> findOrderCount();
+
+    Customer save(Customer customer);
+
+
 }
