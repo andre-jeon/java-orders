@@ -21,6 +21,6 @@ public class OrderController {
     @GetMapping(value = "/order/{value}", produces = "application/json")
     public ResponseEntity<?> findOrderById(@PathVariable long value) {
         Order order =orderServices.findOrderById(value);
-        return new ResponseEntity<>(value, HttpStatus.OK);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 }

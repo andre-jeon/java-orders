@@ -1,5 +1,6 @@
 package com.lambdaschool.javaorders.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
@@ -28,10 +29,12 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "agentcode", nullable = false)
+    @JsonIgnoreProperties(value = "customers", allowSetters = true)
     private Agent agent;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+    @JsonIgnoreProperties(value = "customer", allowSetters = true)
+    private List<Order> orders = new ArrayList<>(); // 1
 
     public Customer() {
     }

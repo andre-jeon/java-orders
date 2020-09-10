@@ -1,6 +1,7 @@
 package com.lambdaschool.javaorders.repositories;
 
 import com.lambdaschool.javaorders.models.Customer;
+import com.lambdaschool.javaorders.views.OrderCount;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,5 +14,7 @@ public interface CustomersRepository extends CrudRepository<Customer, Long> {
             "ON c.custcode = o.custcode " +
             "GROUP BY name " +
             "ORDER BY ordercount DESC, name", nativeQuery = true)
-    List<Customer> findOrderCount();
+    List<OrderCount> findOrderCount();
+
+    List<Customer> findByCustnameContainingIgnoringCase(String keyword);
 }
