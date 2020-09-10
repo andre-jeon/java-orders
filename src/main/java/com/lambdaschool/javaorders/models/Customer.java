@@ -10,6 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 public class Customer {
+    public boolean hasvalueforopeningamt;
+    public boolean hasvalueforoutstandingamt;
+    public boolean hasvalueforpaymentamt;
+    public boolean hasvalueforreceiveamt;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long custcode;

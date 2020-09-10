@@ -90,6 +90,87 @@ public class CustomerServicesImpl implements CustomerServices{
         return customerrepos.save(newCustomer);
     }
 
-    private void findCustomerByID(long custcode) {
+    @Transactional
+    @Override
+    public Customer update(Customer customer, long custcode) {
+
+        Customer updateCustomer = findCustomerByID(custcode);
+
+        if(customer.getCustcity() != null)
+        {
+            updateCustomer.setCustcity(customer.getCustcity());
+        }
+        if(customer.getCustcountry() != null)
+        {
+            updateCustomer.setCustcountry(customer.getCustcountry());
+        }
+        if(customer.getCustname() != null)
+        {
+            updateCustomer.setCustname(customer.getCustname());
+        }
+        if(customer.getGrade() != null)
+        {
+            updateCustomer.setGrade(customer.getGrade());
+        }
+        if(customer.hasvalueforopeningamt)
+        {
+            updateCustomer.setOpeningamt(customer.getOpeningamt());
+        }
+        if(customer.hasvalueforoutstandingamt)
+        {
+            updateCustomer.setOutstandingamt(customer.getOutstandingamt());
+        }
+        if(customer.hasvalueforpaymentamt)
+        {
+            updateCustomer.setPaymentamt(customer.getPaymentamt());
+        }
+        if(customer.hasvalueforreceiveamt)
+        {
+            updateCustomer.setReceiveamt(customer.getReceiveamt());
+        }
+        if(customer.getPhone() != null)
+        {
+            updateCustomer.setPhone(customer.getPhone());
+        }
+        if(customer.getWorkingarea() != null)
+        {
+            updateCustomer.setWorkingarea(customer.getWorkingarea());
+        }
+        if(customer.getAgent() != null)
+        {
+            updateCustomer.setAgent(customer.getAgent());
+        }
+
+        if(customer.getOrders().size() > 0) {
+            updateCustomer.getOrders().clear();
+            for (Order o : customer.getOrders()) {
+                Order newOrder = new Order(o.getOrdamount(), o.getAdvanceamount(), updateCustomer, o.getOrderdescription());
+                if(o.getPayments().size() > 0) {
+                    for (Payment p : o.getPayments()) {
+                        Payment newPayment = paymentrepos.findById(p.getPaymentid())
+                                .orElseThrow(() -> new EntityNotFoundException("Payment " + p.getPaymentid() + " not found!"));
+
+                        newOrder.getPayments().add(newPayment);
+                    }
+                }
+                updateCustomer.getOrders().add(newOrder);
+            }
+        }
+
+        return customerrepos.save(updateCustomer);
+    }
+
+    @Transactional
+    @Override
+    public void delete(long custcode) {
+        if (customerrepos.findById(custcode).isPresent()) {
+            customerrepos.deleteById((custcode));
+        } else {
+            throw new EntityNotFoundException("Customer " + custcode + " Not Found!");
+        }
+    }
+
+    private Customer findCustomerByID(long custcode) {
+        return null;
     }
 }

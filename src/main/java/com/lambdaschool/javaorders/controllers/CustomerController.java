@@ -45,7 +45,7 @@ public class CustomerController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
-    // POST
+    // POST: Adds a new customer including any new orders
     // http://localhost:2019/customers/customer
     @PostMapping(value = "/customer", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> addNewCustomer(@Valid @RequestBody Customer newCustomer) {
@@ -61,14 +61,28 @@ public class CustomerController {
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
-    // PUT
+    // PUT: completely replaces the customer record including associated orders with the provided data
     // http://localhost:2019/customers/customer/19
+    @PutMapping(value = "/customer/{custid}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> updateFullCustomer(@PathVariable long custid, @Valid @RequestBody Customer updateCustomer) {
+        updateCustomer.setCustcode(custid);
+        updateCustomer = customerServices.save(updateCustomer);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
-    // PATCH
+    // PATCH: Updates customers with the new data. Only the new data is to be sent from the frontend client.
     // http://localhost:2019/customers/customer/19
+    @PatchMapping(value = "/customer/{custcode}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> updatePartRestaurant(@PathVariable long custcode, @RequestBody Customer updateCustomer) {
+        updateCustomer = customerServices.update(updateCustomer, custcode);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
-    // DELETE
+    // DELETE: Deletes the given customer including any associated orders
     // http://localhost:2019/customers/customer/54
-
-
+    @DeleteMapping(value = "/customer/{custcode}")
+    public ResponseEntity<?> deleteCustomerById(@PathVariable long custcode) {
+        customerServices.delete(custcode);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
